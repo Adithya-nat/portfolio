@@ -1,0 +1,356 @@
+---
+export interface TimelineItem {
+  id: string;
+  company: string;
+  logo?: string;
+  role: string;
+  location: string;
+  dateRange: string;
+  description?: string;
+  highlights: string[];
+  technologies?: string[];
+  photo?: string;
+  photoAlt?: string;
+}
+
+interface Props {
+  items: TimelineItem[];
+  title: string;
+  subtitle?: string;
+}
+
+const { items, title, subtitle } = Astro.props;
+---
+
+<div class="timeline-wrapper">
+  <div class="section-header animate-on-scroll">
+    <h2 class="section-title">{title}</h2>
+    {subtitle && <p class="section-subtitle">{subtitle}</p>}
+  </div>
+  
+  <div class="timeline">
+    <div class="timeline-line"></div>
+    
+    {items.map((item, index) => (
+      <div class="timeline-item animate-on-scroll" style={`--index: ${index}`} data-index={index}>
+        <div class="timeline-marker">
+          <div class="marker-dot"></div>
+        </div>
+        
+        <div class="timeline-card">
+          <div class="card-header">
+            {item.logo && (
+              <div class="company-logo">
+                <img src={item.logo} alt={`${item.company} logo`} loading="lazy" />
+              </div>
+            )}
+            <div class="card-header-text">
+              <h3 class="company-name">{item.company}</h3>
+              <span class="date-range">{item.dateRange}</span>
+            </div>
+          </div>
+          
+          <div class="card-body">
+            <div class="role-info">
+              <h4 class="role-title">{item.role}</h4>
+              <span class="location">{item.location}</span>
+            </div>
+            
+            {item.description && (
+              <p class="role-description">{item.description}</p>
+            )}
+            
+            <ul class="highlights">
+              {item.highlights.map(highlight => (
+                <li>{highlight}</li>
+              ))}
+            </ul>
+            
+            {item.photo && (
+              <div class="inline-photo">
+                <img src={item.photo} alt={item.photoAlt || `Photo from ${item.company}`} loading="lazy" />
+              </div>
+            )}
+            
+            {item.technologies && item.technologies.length > 0 && (
+              <div class="tech-stack">
+                {item.technologies.map(tech => (
+                  <span class="tech-tag">{tech}</span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .timeline-wrapper {
+    width: 100%;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+    margin-top: var(--spacing-2xl);
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-accent) 0%,
+      var(--color-border) 100%
+    );
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: var(--spacing-2xl);
+    transition-delay: calc(var(--index) * 100ms);
+  }
+
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-marker {
+    position: absolute;
+    left: -40px;
+    top: 32px;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .marker-dot {
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-background);
+    border: 3px solid var(--color-accent);
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    transition: all var(--transition-base);
+  }
+
+  .timeline-item:hover .marker-dot {
+    background-color: var(--color-accent);
+    transform: scale(1.2);
+  }
+
+  .timeline-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+  }
+
+  .timeline-card:hover {
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(4px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    background-color: var(--color-background-alt);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  /* Larger logo styling */
+  .company-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    background-color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--color-border-light);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .company-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+  }
+
+  .card-header-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .company-name {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .date-range {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .card-body {
+    padding: var(--spacing-xl);
+  }
+
+  .role-info {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .role-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .location {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .role-description {
+    font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .highlights {
+    list-style: none;
+    margin: 0 0 var(--spacing-md) 0;
+    padding: 0;
+  }
+
+  .highlights li {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .highlights li:last-child {
+    margin-bottom: 0;
+  }
+
+  .highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+  }
+
+  /* Inline photo styling */
+  .inline-photo {
+    width: 100%;
+    height: 220px;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    margin: var(--spacing-lg) 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border-light);
+  }
+
+  .inline-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .inline-photo:hover img {
+    transform: scale(1.03);
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .tech-tag {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-background-alt);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .timeline {
+      padding-left: 24px;
+    }
+
+    .timeline-line {
+      left: 3px;
+    }
+
+    .timeline-marker {
+      left: -24px;
+    }
+
+    .marker-dot {
+      width: 12px;
+      height: 12px;
+      border-width: 2px;
+    }
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-md);
+      padding: var(--spacing-lg);
+    }
+
+    .company-logo {
+      width: 64px;
+      height: 64px;
+    }
+
+    .card-body {
+      padding: var(--spacing-lg);
+    }
+
+    .role-info {
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+
+    .inline-photo {
+      height: 180px;
+    }
+  }
+</style>
