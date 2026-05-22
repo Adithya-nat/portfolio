@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adithya Natarajan | About</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0b1121;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    :root {
+      --bg: #0b1121;
+      --bg-card: #111827;
+      --accent: #00f0ff;
+      --accent-dim: rgba(0,240,255,0.15);
+      --text-1: #fff;
+      --text-2: #e2e8f0;
+      --text-3: #94a3b8;
+      --text-4: #64748b;
+      --radius: 14px;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ════════════ NAV ════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(11,17,33,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav__logo {
+      font-size: 20px; font-weight: 800; color: #fff;
+      background: linear-gradient(135deg, #0b1121, #1a2540);
+      border: 1.5px solid rgba(0,240,255,0.3);
+      border-radius: 8px; padding: 4px 10px;
+    }
+    .nav__links { display: flex; gap: 32px; list-style: none; }
+    .nav__links a {
+      color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav__links a:hover, .nav__links a.active { color: #fff; }
+    .nav__cta {
+      background: var(--accent); color: #0b1121; font-weight: 600;
+      font-size: 14px; padding: 8px 20px; border-radius: 8px; border: none; cursor: pointer;
+    }
+
+    /* ════════════ FLOATING DOTS ════════════ */
+    .bg-dots { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .bg-dots .dot {
+      position: absolute; width: 4px; height: 4px; border-radius: 50%;
+      background: var(--accent); opacity: 0;
+      animation: floatDot 14s ease-in-out infinite;
+    }
+    @keyframes floatDot {
+      0%,100% { opacity: 0; transform: translateY(0); }
+      25% { opacity: 0.5; }
+      75% { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-150px); }
+    }
+
+    /* ════════════ ABOUT SECTION — TWO COLUMNS ════════════ */
+    .about {
+      padding: 140px 0 100px;
+      position: relative; z-index: 1;
+    }
+    .about__inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* left: text */
+    .about__text { }
+    .section-label {
+      display: block; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(32px, 5vw, 48px); font-weight: 700;
+      color: var(--text-1); margin: 0 0 20px; line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .about__text p {
+      font-size: 16.5px; line-height: 1.72; color: var(--text-3);
+      margin-bottom: 16px;
+    }
+    .about__text p strong { color: var(--text-1); font-weight: 600; }
+    .about__text p a {
+      color: var(--accent); text-decoration: none; font-weight: 500;
+    }
+
+    /* cert badge */
+    .cert-badge {
+      display: inline-flex; align-items: center; gap: 14px;
+      background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 14px 22px; margin-top: 12px;
+    }
+    .cert-badge__icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: linear-gradient(135deg, #1e3a5f, #0f2844);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #38bdf8;
+      border: 1px solid rgba(56,189,248,0.25);
+    }
+    .cert-badge__text { display: flex; flex-direction: column; }
+    .cert-badge__text strong { color: var(--text-2); font-size: 14px; font-weight: 600; }
+    .cert-badge__text span {
+      font-size: 12px; color: var(--accent); font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px;
+    }
+
+    /* ════════════ PHOTO CAROUSEL ════════════ */
+    .photo-carousel {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .photo-carousel__stage {
+      position: relative;
+      width: 100%;
+      /* generous height for tallest image (portrait) */
+      height: 460px;
+      perspective: 1200px;
+    }
+
+    .photo-carousel__card {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg-card);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+      transition:
+        opacity 0.65s var(--ease),
+        transform 0.65s var(--ease);
+      will-change: transform, opacity;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-carousel__card img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: var(--radius);
+      user-select: none;
+    }
+
+    /* caption */
+    .photo-carousel__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .photo-carousel__caption {
+      display: flex; flex-direction: column; gap: 2px;
+      animation: captionIn 0.45s var(--ease) both;
+    }
+    @keyframes captionIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .photo-carousel__title {
+      font-size: 15px; font-weight: 600; color: var(--text-1);
+    }
+    .photo-carousel__sub {
+      font-size: 13px; font-weight: 500; color: var(--accent); opacity: 0.8;
+    }
+
+    /* controls */
+    .photo-carousel__controls {
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .photo-carousel__btn {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-3); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .photo-carousel__btn:hover {
+      background: rgba(0,240,255,0.08);
+      border-color: rgba(0,240,255,0.2);
+      color: var(--accent);
+    }
+    .photo-carousel__counter {
+      font-size: 12px; font-weight: 600; color: var(--text-4);
+      font-variant-numeric: tabular-nums;
+      min-width: 36px; text-align: center;
+    }
+
+    /* progress dots */
+    .photo-carousel__dots {
+      display: flex; gap: 6px; justify-content: center;
+    }
+    .photo-carousel__dot {
+      width: 28px; height: 3px; border-radius: 2px;
+      background: rgba(255,255,255,0.1);
+      border: none; cursor: pointer; position: relative;
+      overflow: hidden; padding: 0;
+      transition: background 0.3s;
+    }
+    .photo-carousel__dot.active {
+      background: rgba(0,240,255,0.15);
+    }
+    .photo-carousel__dot:hover {
+      background: rgba(0,240,255,0.2);
+    }
+    .photo-carousel__dot-fill {
+      position: absolute; inset: 0;
+      background: var(--accent);
+      border-radius: 2px;
+      transform-origin: left;
+      transition: none;
+    }
+
+    /* ════════════ RESPONSIVE ════════════ */
+    @media (max-width: 840px) {
+      .about__inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .photo-carousel {
+        position: relative;
+        top: 0;
+      }
+      .nav { padding: 14px 20px; }
+      .nav__links { display: none; }
+      .about { padding: 110px 0 60px; }
+      .about__inner { padding: 0 20px; }
+    }
+
+    @media (max-width: 500px) {
+      .photo-carousel__stage {
+        height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-dots" id="bgDots"></div>
+
+  <nav class="nav">
+    <div class="nav__logo">AN</div>
+    <ul class="nav__links">
+      <li><a href="#" class="active">About</a></li>
+      <li><a href="#">Experience</a></li>
+      <li><a href="#">Projects</a></li>
+      <li><a href="#">Skills</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <button class="nav__cta">Let's Connect</button>
+    </div>
+  </nav>
+
+  <section class="about" id="about">
+    <div class="about__inner">
+
+      <!-- LEFT: text content -->
+      <div class="about__text">
+        <span class="section-label">MY STORY</span>
+        <h2 class="section-title">About</h2>
+        <p>
+          I started building software in <strong>India</strong>, then moved to
+          <strong>Arizona State University</strong> for my Masters in Computer Science.
+          After cutting my teeth at <strong>Freshworks</strong> on marketplace
+          infrastructure and developer tools, I joined
+          <strong>Intuit's Enterprise Security team</strong>.
+        </p>
+        <p>
+          Each step was deliberate — moving closer to the intersection of
+          <a href="#">AI and real-world systems</a>. The Secure Design Agent is the proof:
+          a production multi-agent system used by security reviewers every day, not a
+          weekend demo. I care about building <a href="#">systems that last</a>,
+          not just prototypes that impress.
+        </p>
+        <div class="cert-badge">
+          <div class="cert-badge__icon">AWS</div>
+          <div class="cert-badge__text">
+            <strong>AWS Certified Solutions Architect — Associate</strong>
+            <span>Issued Jan 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: photo carousel -->
+      <div id="carousel-root"></div>
+
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="photo-carousel.jsx"></script>
+
+  <script type="text/babel">
+    ReactDOM.createRoot(document.getElementById('carousel-root'))
+      .render(<PhotoCarousel />);
+
+    // floating dots
+    const dc = document.getElementById('bgDots');
+    for (let i = 0; i < 18; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      d.style.left = Math.random() * 100 + '%';
+      d.style.top = (30 + Math.random() * 60) + '%';
+      d.style.animationDelay = (Math.random() * 14) + 's';
+      d.style.animationDuration = (9 + Math.random() * 9) + 's';
+      dc.appendChild(d);
+    }
+  </script>
+
+</body>
+</html>

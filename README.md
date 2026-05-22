@@ -1,107 +1,46 @@
-# Adithya Natarajan - Portfolio Website
+# Adithya Natarajan Portfolio
 
-A modern, minimalistic portfolio website built with Astro, featuring an Anthropic-inspired design with smooth animations and responsive layouts.
+This repository deploys a static, bundled portfolio site to GitHub Pages. The production page is `site/index.html`, generated from the Claude Design export.
 
-## Features
+## Development
 
-- **Modern Design**: Anthropic-inspired warm cream aesthetic with clean typography
-- **Animated Timelines**: Scroll-triggered animations for work experience and education
-- **Responsive**: Mobile-first design that looks great on all devices
-- **Fast**: Built with Astro for lightning-fast page loads
-- **SEO Ready**: Proper meta tags and semantic HTML
-
-## Tech Stack
-
-- [Astro](https://astro.build/) - Static site generator
-- TypeScript - Type safety
-- CSS3 - Custom animations and styling
-- Inter Font - Google Fonts
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ installed
-- npm or yarn
-
-### Installation
+No Node or Astro build is required. To preview locally:
 
 ```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+cd /Users/adithyanatarajan/Documents/dev/resume/portfolio
+rm -rf dist
+mkdir -p dist
+cp site/index.html dist/index.html
+python3 -m http.server 4173 --directory dist
 ```
 
-### Development
+Then open `http://localhost:4173/`.
 
-The site runs at `http://localhost:4321/portfolio/` in development mode.
+If your terminal is in the parent `resume/` directory, use:
 
-## Project Structure
-
-```
-portfolio/
-├── src/
-│   ├── components/     # Astro components
-│   ├── layouts/        # Page layouts
-│   ├── pages/          # Route pages
-│   └── styles/         # Global CSS
-├── public/
-│   ├── images/         # Logo and badge images
-│   └── resume.pdf      # Downloadable resume
-└── .github/workflows/  # GitHub Actions deployment
+```bash
+cd /Users/adithyanatarajan/Documents/dev/resume
+rm -rf portfolio/dist
+mkdir -p portfolio/dist
+cp portfolio/site/index.html portfolio/dist/index.html
+python3 -m http.server 4173 --directory portfolio/dist
 ```
 
-## Customization
+You can also run:
 
-### Adding Your Images
-
-Replace placeholder logos in `public/images/`:
-- `intuit-logo.svg`
-- `freshworks-logo.svg`
-- `asu-logo.svg`
-- `sastra-logo.svg`
-- `aws-badge.svg`
-
-### Adding Your Resume
-
-Place your resume PDF in `public/resume.pdf`
-
-### Updating Content
-
-Edit the data in respective component files:
-- `src/components/Experience.astro` - Work experience
-- `src/components/Education.astro` - Education details
-- `src/components/Skills.astro` - Technical skills
-- `src/components/Projects.astro` - Personal projects
+```bash
+bash /Users/adithyanatarajan/Documents/dev/resume/portfolio/scripts/preview-local.sh
+```
 
 ## Deployment
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions on deploying to GitHub Pages.
+GitHub Actions copies `site/index.html` into `dist/index.html` and uploads `dist/` to GitHub Pages. The deployed site is served from the repository Pages URL, including `/portfolio/` when GitHub Pages uses the repository name as the base path.
 
-### Quick Deploy
+## Updating The Site
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/portfolio.git
-git push -u origin main
-```
+1. Export the updated Claude Design bundle.
+2. Replace `site/index.html` with the new bundled HTML.
+3. Run the local preview command above.
+4. Commit and push to `main`.
 
-Then enable GitHub Pages in repository settings with "GitHub Actions" as the source.
-
-## License
-
-MIT License - Feel free to use this template for your own portfolio!
-
----
-
-Built with ❤️ using [Astro](https://astro.build/)
+The bundled HTML embeds its own UI runtime, styles, fonts, images, and resume assets.
